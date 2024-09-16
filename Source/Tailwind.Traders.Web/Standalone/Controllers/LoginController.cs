@@ -32,9 +32,13 @@ namespace Tailwind.Traders.Web.Standalone.Controllers
         [HttpPost()]
         public IActionResult Login([FromBody] TokenRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password) || request.GrantType != "password")
+            if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
             {
                 return BadRequest("Could not verify username and password");
+            }
+            if (request.GrantType != "password")
+            {
+                return BadRequest("Invalid grant type");
             }
 
             sqlInjectionExample.AuthenticateUser(request.Username, request.Password);
